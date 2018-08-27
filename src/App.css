@@ -9,8 +9,8 @@
   top: 50%;
   left: 50%;
   width:30em;
-  height:30em;
-  margin-top: -15em;
+  height:25em;
+  margin-top: -12.5em;
   /*set to a negative number 1/2 of your height*/
 
   margin-left: -15em;
@@ -18,11 +18,17 @@
 
   border: 1px solid #ccc;
   background-color: #f3f3f3;
+  
   position:fixed;
 
   border-radius: 10px;
+  opacity: 0.8;
 }
 
 .padding {
   padding: 10px;
+}
+
+.calc {
+  height: 20px;
 }
