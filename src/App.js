@@ -36,11 +36,14 @@ class App extends Component {
       <div class="App">
         <div id="calculation">
           <h1 class="padding">Calculate your standard drinks here!</h1>
-          <label for="amount">Amount of Alcohol in ml</label><br/>
-          <input class="calc" id="amount" name="amount" placeholder="In millilitres" value={this.state.values["amount"]}  onChange={this.handleChange.bind(this)}/>
-          <br/>
-          <label for="percent">Percentage of Alcohol</label><br/>
-          <input class="calc" id="percent" name="percent" placeholder="eg. 50 for 50%" value={this.state.values["percent"]}  onChange={this.handleChange.bind(this)}/>
+          <div class="padding-bottom ">
+            <label for="amount">Amount of Alcohol in ml</label><br/>
+            <input class="calc" id="amount" name="amount" placeholder="In millilitres" value={this.state.values["amount"]}  onChange={this.handleChange.bind(this)}/>
+          </div>
+          <div class="padding-bottom ">
+            <label for="percent">Percentage of Alcohol</label><br/>
+            <input class="calc" id="percent" name="percent" placeholder="eg. 50 for 50%" value={this.state.values["percent"]}  onChange={this.handleChange.bind(this)}/>
+          </div>
           <h2 class="padding">Standard drinks</h2><p>{this.state.standard}</p>
         </div>
       </div>
