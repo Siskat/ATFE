@@ -74,7 +74,7 @@ class App extends Component {
                         <span className="description"> ASSIGNED </span>
                         <span onMouseEnter={() => this.showTaskPath(task)} onMouseLeave={() => this.mouseLeave()}>{task.name}</span>
                         <span className="description"> TO </span>
-                        <span onMouseEnter={() => this.showUserPath(user)} onMouseLeave={() => this.mouseLeave()}>{assignee.abbreviated_name}</span>
+                        <span onMouseEnter={() => this.showUserPath(assignee)} onMouseLeave={() => this.mouseLeave()}>{assignee.abbreviated_name}</span>
                     </span>
                 </li>);
             case 'joined':
