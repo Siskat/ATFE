@@ -1,38 +1,35 @@
-.App {
-  background-image: url('bg1.png');
-  background-size: cover;
-  height: 100vh;
+.background {
+    margin: 20px;
+    box-shadow: 0 0 8px #888888;
+    padding: 10px;
+    width: 400px;
+    height: auto;
+    letter-spacing: 0.3px;
 }
 
-#calculation {
-  text-align: center;
-  top: 50%;
-  left: 50%;
-  width:30em;
-  height:25em;
-  margin-top: -12.5em;
-  /*set to a negative number 1/2 of your height*/
-
-  margin-left: -15em;
-  /*set to a negative number 1/2 of your width*/
-
-  border: 1px solid #ccc;
-  background-color: #f3f3f3;
-  
-  position:fixed;
-
-  border-radius: 10px;
-  opacity: 0.8;
+ul {
+    margin: 0 0 40px 0;
+    padding: 0;
+    list-style-type: none;
 }
 
-.padding {
-  padding: 10px;
+li {
+    padding: 10px 0;
+    border-bottom: 1px solid #e3e3e3;
 }
 
-.calc {
-  height: 20px;
+.description {
+    font-size: 11px;
+    color: #9c9c9c;
 }
 
-.padding-bottom {
-  padding-bottom: 10px;
+.item {
+    font-size: 14px;
+    color: #008FB4;
+    cursor: pointer;
+}
+
+.item :hover {
+    text-decoration: underline; 
+    text-underline-position: under;
 }

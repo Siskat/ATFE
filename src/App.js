@@ -4,51 +4,114 @@ import './App.css';
 
 class App extends Component {
 
-  constructor(props){
-    super(props);
-    this.state = {
-      values: {},
-      standard: ''
+    constructor(props) {
+        super(props);
+        const data = require('./activity_feed.json');
+        this.state = {
+            data: data,
+            hover: false,
+            path: ''
+        }
     }
-  }
 
-  handleChange(event) {
-    event.preventDefault();
-    let formValues = this.state.values;
-    let name = event.target.name;
-    let value = event.target.value;
+    getUserById(id) {
+        const profile = this.state.data.profiles.find((p) => p.id === id);
+        if (profile) {
+            return profile;
+        }
+    }
 
-    formValues[name] = value;
+    getTaskById(id) {
+        const task = this.state.data.tasks.find((p) => p.id === id);
+        if (task) {
+            return task;
+        }
+    }
 
-    this.setState({
-      formValues
-    });
-    this.calculate();
-  }
+    showUserPath(user) {
+        this.setState({
+            hover:true,
+            path: '/users/' + user.slug
+        });
+    }
 
-  calculate() {
-    let sd = this.state.values.amount/1000*this.state.values.percent*0.789;
-    this.setState({standard:sd});
-  }
+    showTaskPath(task) {
+        this.setState({
+            hover: true,
+            path: '/tasks/' + task.slug
+        });
+    }
 
-  render() {
-    return (
-      <div class="App">
-        <div id="calculation">
-          <h1 class="padding">Calculate your standard drinks here!</h1>
-          <div class="padding-bottom ">
-            <label for="amount">Amount of Alcohol in ml</label><br/>
-            <input class="calc" id="amount" name="amount" placeholder="In millilitres" value={this.state.values["amount"]}  onChange={this.handleChange.bind(this)}/>
-          </div>
-          <div class="padding-bottom ">
-            <label for="percent">Percentage of Alcohol</label><br/>
-            <input class="calc" id="percent" name="percent" placeholder="eg. 50 for 50%" value={this.state.values["percent"]}  onChange={this.handleChange.bind(this)}/>
-          </div>
-          <h2 class="padding">Standard drinks</h2><p>{this.state.standard}</p>
-        </div>
-      </div>
-    );
-  }
+    mouseLeave() {
+        this.setState({
+            hover: false
+        });
+    }
+
+    getActivity(event) {
+        const task = this.getTaskById(event.task_id);
+        const user = this.getUserById(event.profile_ids[0]); 
+        let eventType = '';
+
+        // sort activities by type
+        switch (event.event) {
+            case 'posted':
+                eventType= ' POSTED A TASK ';
+                break;
+            case 'completed':
+                eventType = ' COMPLETED ';
+                break;
+            case 'bid':
+                eventType = ' BID ON ';
+                break;
+            case 'comment':
+                eventType = ' COMMENTED ON ';
+                break;
+            case 'assigned':
+                const assignee = this.getUserById(event.profile_ids[1]);
+                return (<li key={event.template}>
+                    <span className="item">
+                        <span onMouseEnter={() => this.showUserPath(user)} onMouseLeave={() => this.mouseLeave()}>{user.abbreviated_name}</span>
+                        <span className="description"> ASSIGNED </span>
+                        <span onMouseEnter={() => this.showTaskPath(task)} onMouseLeave={() => this.mouseLeave()}>{task.name}</span>
+                        <span className="description"> TO </span>
+                        <span onMouseEnter={() => this.showUserPath(user)} onMouseLeave={() => this.mouseLeave()}>{assignee.abbreviated_name}</span>
+                    </span>
+                </li>);
+            case 'joined':
+                return (<li key={event.template}>
+                    <span className="item">
+                        <span onMouseEnter={() => this.showUserPath(user)} onMouseLeave={() => this.mouseLeave()}>{user.abbreviated_name}</span>
+                        <span className="description"> SIGNED UP </span>
+                    </span>
+                </li>);
+        }
+
+        return (<li key={event.template}>
+            <span className="item">
+                <span onMouseEnter={() => this.showUserPath(user)} onMouseLeave={() => this.mouseLeave()}>{user.abbreviated_name}</span>
+                <span className="description">{eventType}</span>
+                <span onMouseEnter={() => this.showTaskPath(task)} onMouseLeave={() => this.mouseLeave()}>{task.name}</span>
+            </span>
+        </li>);
+    }
+
+    render() {
+        let info;
+        if (!this.state.hover) {
+            info = 'Mouse over a user or task to get their path.';
+        } else {
+            info = this.state.path
+        }
+        
+        const taskList = this.state.data.activity_feed.map((event) => this.getActivity(event));
+        return (
+            <div className="background">
+                <ul>{taskList}</ul>
+                {info}
+            </div>
+        );
+    }
 }
 
 export default App;
